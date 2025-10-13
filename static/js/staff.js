@@ -1,0 +1,157 @@
+// ===================================
+// STAFF DASHBOARD - OTP GENERATION
+// ===================================
+
+let otpTimer = null;
+let currentOtp = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const generateBtn = document.getElementById('generateOtpBtn');
+    const otpDisplay = document.getElementById('otpDisplay');
+    const otpCode = document.getElementById('otpCode');
+    const otpTimerElement = document.getElementById('otpTimer');
+    const otpProgressBar = document.getElementById('otpProgressBar');
+    
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateOTP);
+    }
+    
+    // Update period info every minute
+    updatePeriodInfo();
+    setInterval(updatePeriodInfo, 60000);
+});
+
+function updatePeriodInfo() {
+    const periodElement = document.getElementById('currentPeriod');
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const currentTime = hours * 60 + minutes;
+    
+    const periods = [
+        { num: 1, start: 9*60, end: 9*60+50, name: '1st Period (9:00 AM - 9:50 AM)' },
+        { num: 2, start: 9*60+50, end: 10*60+40, name: '2nd Period (9:50 AM - 10:40 AM)' },
+        { num: 3, start: 11*60, end: 11*60+50, name: '3rd Period (11:00 AM - 11:50 AM)' },
+        { num: 4, start: 11*60+50, end: 12*60+40, name: '4th Period (11:50 AM - 12:40 PM)' },
+        { num: 5, start: 13*60+40, end: 14*60+25, name: '5th Period (1:40 PM - 2:25 PM)' },
+        { num: 6, start: 14*60+25, end: 15*60+10, name: '6th Period (2:25 PM - 3:10 PM)' },
+        { num: 7, start: 15*60+20, end: 16*60+5, name: '7th Period (3:20 PM - 4:05 PM)' },
+        { num: 8, start: 16*60+5, end: 16*60+50, name: '8th Period (4:05 PM - 4:50 PM)' }
+    ];
+    
+    let currentPeriod = null;
+    for (const period of periods) {
+        if (currentTime >= period.start && currentTime <= period.end) {
+            currentPeriod = period;
+            break;
+        }
+    }
+    
+    if (currentPeriod) {
+        periodElement.textContent = `Current: ${currentPeriod.name}`;
+        periodElement.style.color = 'var(--success)';
+    } else {
+        periodElement.textContent = 'Break Time - No attendance window';
+        periodElement.style.color = 'var(--warning)';
+    }
+}
+
+async function generateOTP() {
+    const generateBtn = document.getElementById('generateOtpBtn');
+    const otpDisplay = document.getElementById('otpDisplay');
+    const otpCode = document.getElementById('otpCode');
+    const otpTimerElement = document.getElementById('otpTimer');
+    const otpProgressBar = document.getElementById('otpProgressBar');
+    
+    // Clear any existing timer
+    if (otpTimer) {
+        clearInterval(otpTimer);
+    }
+    
+    // Disable button and show loading
+    setButtonLoading(generateBtn, true);
+    
+    try {
+        const response = await fetch('/generate_otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            currentOtp = data.otp;
+            
+            // Display OTP
+            otpCode.textContent = data.otp;
+            otpDisplay.style.display = 'block';
+            
+            // Start countdown timer
+            let timeRemaining = data.expires_in;
+            otpTimerElement.textContent = timeRemaining;
+            otpProgressBar.style.width = '100%';
+            
+            otpTimer = setInterval(function() {
+                timeRemaining--;
+                otpTimerElement.textContent = timeRemaining;
+                
+                // Update progress bar
+                const progress = (timeRemaining / data.expires_in) * 100;
+                otpProgressBar.style.width = progress + '%';
+                
+                // Change color when time is running out
+                if (timeRemaining <= 3) {
+                    otpProgressBar.style.background = 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)';
+                    otpTimerElement.style.color = '#EF4444';
+                } else {
+                    otpProgressBar.style.background = 'var(--gradient-gold)';
+                    otpTimerElement.style.color = 'var(--gold)';
+                }
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(otpTimer);
+                    otpCode.textContent = 'EXPIRED';
+                    otpCode.style.color = '#EF4444';
+                    otpProgressBar.style.width = '0%';
+                    
+                    setTimeout(function() {
+                        otpDisplay.style.display = 'none';
+                        otpCode.style.color = 'var(--gold)';
+                    }, 2000);
+                }
+            }, 1000);
+            
+            showMessage('OTP generated successfully! Valid for 10 seconds.', 'success');
+        } else {
+            showMessage(data.message || 'Failed to generate OTP', 'error');
+        }
+    } catch (error) {
+        console.error('Error generating OTP:', error);
+        showMessage('Error generating OTP. Please try again.', 'error');
+    } finally {
+        setButtonLoading(generateBtn, false);
+    }
+}
+
+// Copy OTP to clipboard (optional feature)
+function copyOTP() {
+    if (currentOtp) {
+        navigator.clipboard.writeText(currentOtp).then(function() {
+            showMessage('OTP copied to clipboard!', 'success');
+        }).catch(function(err) {
+            console.error('Failed to copy OTP:', err);
+        });
+    }
+}
+
+// Add click event to OTP code for copying
+document.addEventListener('DOMContentLoaded', function() {
+    const otpCode = document.getElementById('otpCode');
+    if (otpCode) {
+        otpCode.style.cursor = 'pointer';
+        otpCode.title = 'Click to copy';
+        otpCode.addEventListener('click', copyOTP);
+    }
+});

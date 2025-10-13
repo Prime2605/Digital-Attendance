@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Dashboard - Smart Attendance{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1><i class="fas fa-chalkboard-teacher"></i> Staff Dashboard</h1>
+        <p>Welcome, {{ user_name }}! Generate OTP for student attendance.</p>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- OTP Generation Card -->
+        <div class="dashboard-card glass-panel otp-card">
+            <div class="card-header">
+                <h2><i class="fas fa-key"></i> Generate OTP</h2>
+                <p>Create a temporary OTP valid for 10 seconds</p>
+            </div>
+
+            <div class="card-body">
+                <div id="periodInfo" class="period-info">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentPeriod">Checking period...</span>
+                </div>
+
+                <button id="generateOtpBtn" class="btn-primary btn-generate">
+                    <i class="fas fa-plus-circle"></i> Generate OTP
+                </button>
+
+                <div id="otpDisplay" class="otp-display" style="display: none;">
+                    <div class="otp-code-wrapper">
+                        <div class="otp-label">Current OTP:</div>
+                        <div id="otpCode" class="otp-code">------</div>
+                        <div class="otp-timer">
+                            <i class="fas fa-clock"></i>
+                            <span id="otpTimer">10</span> seconds remaining
+                        </div>
+                    </div>
+                    <div class="otp-progress">
+                        <div id="otpProgressBar" class="otp-progress-bar"></div>
+                    </div>
+                </div>
+
+                <div class="otp-instructions">
+                    <h3><i class="fas fa-info-circle"></i> Instructions:</h3>
+                    <ul>
+                        <li>Click "Generate OTP" to create a new code</li>
+                        <li>Share the OTP with students immediately</li>
+                        <li>OTP expires after 10 seconds automatically</li>
+                        <li>Students must enter OTP before expiry</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Attendance Card -->
+        <div class="dashboard-card glass-panel attendance-card">
+            <div class="card-header">
+                <h2><i class="fas fa-clipboard-list"></i> Recent Attendance</h2>
+                <p>Latest attendance records</p>
+            </div>
+
+            <div class="card-body">
+                <div class="attendance-list">
+                    {% if attendance_records %}
+                        {% for record in attendance_records %}
+                        <div class="attendance-item">
+                            <div class="attendance-info">
+                                <div class="attendance-name">
+                                    <i class="fas fa-user"></i>
+                                    {{ record.users.name if record.users else 'Unknown' }}
+                                </div>
+                                <div class="attendance-time">
+                                    <i class="fas fa-calendar"></i>
+                                    {{ record.date }} at {{ record.time }}
+                                </div>
+                            </div>
+                            <div class="attendance-status status-{{ record.status }}">
+                                <i class="fas fa-check-circle"></i>
+                                {{ record.status.title() }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="no-records">
+                            <i class="fas fa-inbox"></i>
+                            <p>No attendance records yet</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card glass-panel">
+            <div class="stat-icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Students</h3>
+                <p class="stat-value">{{ attendance_records|length }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card glass-panel">
+            <div class="stat-icon">
+                <i class="fas fa-check-double"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Present Today</h3>
+                <p class="stat-value">{{ attendance_records|length }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card glass-panel">
+            <div class="stat-icon">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Attendance Rate</h3>
+                <p class="stat-value">100%</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+{% endblock %}
