@@ -13,8 +13,8 @@
     }
   ],
   "env": {
-    "SUPABASE_URL": "@supabase_url",
-    "SUPABASE_KEY": "@supabase_key",
-    "SECRET_KEY": "@secret_key"
+    "SUPABASE_URL": "https://avepxrzlkzpzoallhllw.supabase.co",
+    "SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF2ZXB4cnpsa3pwem9hbGxobGx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTk4NzQsImV4cCI6MjA3NTkzNTg3NH0.ulppHDWgfh7E96X0COAcwFTyxq9W292TDVJctPVS6QU",
+    "SECRET_KEY": "a4c1b2f3a89d0e4fbcfe1234ab56cd78"
   }
 }
