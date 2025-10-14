@@ -150,26 +150,43 @@ python app.py
 The application will start on `http://localhost:5000`
 
 ### 6. Access the Application
-
 Open your browser and navigate to:
 ```
 http://localhost:5000
 ```
 
-## 👤 Demo Credentials
+## 🔑 Login Credentials
 
-### Staff Account
-- **Email**: `staff@example.com`
-- **Password**: `staff123`
+### Staff Accounts (All 7 HODs)
+**Password:** `staff123` (same for all)
 
-### Student Account
-- **Email**: `student@example.com`
-- **Password**: `student123`
+| Department | Name | Email |
+|------------|------|-------|
+| Civil | Dr. P. Saravanakumar | staff1@gceerode.ac.in |
+| Automobile | Dr. R. Senthilraja | staff2@gceerode.ac.in |
+| Mechanical | Dr. K. Balamurugan | staff3@gceerode.ac.in |
+| EEE | Dr. M. Mohammadha Hussaini | staff4@gceerode.ac.in |
+| ECE | Mr. M. Raja | staff5@gceerode.ac.in |
+| CSE | Dr. A. Saradha | staff6@gceerode.ac.in |
+| IT | Dr. I. Bhuvaneshwarri | staff7@gceerode.ac.in |
+
+**Legacy:** staff@example.com / staff123
+
+### Student Accounts
+**Password:** `student123` (same for all)
+
+| Name | Department | Year | Email |
+|------|------------|------|-------|
+| Rajesh Kumar | CSE | 3 | student1@gceerode.ac.in |
+| Priya Sharma | ECE | 2 | student2@gceerode.ac.in |
+
+**Legacy:** student@example.com / student123
 
 ## 📖 User Guide
 
 ### For Staff
 
+{{ ... }}
 1. **Login** with staff credentials
 2. Check **current period** status (displayed on dashboard)
 3. Click **"Generate OTP"** button (only during valid periods)

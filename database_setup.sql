@@ -10,19 +10,22 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- DROP EXISTING TABLES (if needed)
 -- ===================================
 -- Uncomment the following lines if you want to reset the database
--- DROP TABLE IF EXISTS attendance CASCADE;
 -- DROP TABLE IF EXISTS otp CASCADE;
 -- DROP TABLE IF EXISTS users CASCADE;
 
 -- ===================================
 -- CREATE USERS TABLE
 -- ===================================
+
+-- Create users table
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL CHECK (role IN ('staff', 'student')),
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    department VARCHAR(100),
+    year INTEGER CHECK (year >= 1 AND year <= 4),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

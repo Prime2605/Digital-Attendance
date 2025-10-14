@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Background Demo - Smart Attendance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #canvas-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .demo-header h1 {
+            font-size: 3rem;
+            color: #D4AF37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .demo-header p {
+            font-size: 1.2rem;
+            color: #C0C0C0;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #D4AF37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #D4AF37;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #D4AF37;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: #C0C0C0;
+            line-height: 1.6;
+        }
+
+        .controls {
+            background: rgba(26, 26, 26, 0.9);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .controls h2 {
+            color: #D4AF37;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-item {
+            display: inline-block;
+            margin: 0.5rem 1rem;
+            padding: 1rem 2rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            color: #C0C0C0;
+        }
+
+        .control-item strong {
+            color: #D4AF37;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .demo-container > * {
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .demo-container > *:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .demo-container > *:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Background Canvas -->
+    <div id="canvas-3d"></div>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎨 3D Animated Background</h1>
+            <p>Smart Attendance System - Government College of Engineering, Erode</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌐</div>
+                <h3>360° Rotation</h3>
+                <p>Fully rotating 3D model with smooth animations and continuous motion in all directions.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <h3>Transparent Design</h3>
+                <p>Semi-transparent background that doesn't interfere with content, perfectly positioned behind everything.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Optimized Performance</h3>
+                <p>60 FPS smooth animation with minimal CPU/GPU usage. Efficient rendering for all devices.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>8 Orbiting Cubes</h3>
+                <p>Represents the 8 periods of the college day, each orbiting at different speeds.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💫</div>
+                <h3>1000 Particles</h3>
+                <p>Gold and silver particles floating in 3D space, creating depth and atmosphere.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>College Colors</h3>
+                <p>Gold (#D4AF37) and Silver (#C0C0C0) matching the college branding theme.</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2>Interactive Controls</h2>
+            <div class="control-item">
+                <strong>Move Mouse:</strong> Camera follows cursor
+            </div>
+            <div class="control-item">
+                <strong>Auto-Rotate:</strong> Continuous 360° rotation
+            </div>
+            <div class="control-item">
+                <strong>Responsive:</strong> Adapts to screen size
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- 3D Background Script -->
+    <script src="static/js/3d-background.js"></script>
+</body>
+</html>

@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Smart Attendance System{% endblock %}</title>
-    
+    <title>{% block title %}Smart Attendance System - GCEE{% endblock %}</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -17,15 +18,23 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <!-- 3D Background Canvas -->
+    <div id="canvas-3d"></div>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="container">
+        <div class="container navbar-container">
+            <div class="navbar-logos">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q0QUYzNyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAiIHk9IjM1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNEMkFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj5HQ0VFPC90ZXh0Pgo8L3N2Zz4=" alt="GCEE Logo" class="navbar-logo">
+            </div>
             <div class="navbar-brand">
-                <i class="fas fa-graduation-cap"></i>
                 <div class="brand-text">
-                    <span class="college-name">Government College of Engineering, Erode</span>
+                    <span class="college-name">அரசினர் பொறியியல் கல்லூரி, ஈரோடு</span>
+                    <span class="college-name-en">Government College of Engineering, Erode</span>
                     <span class="system-name">SMART ATTENDANCE SYSTEM – B.E / B.Tech</span>
                 </div>
+            </div>
+            <div class="navbar-logos">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0Q0QUYzNyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPHRleHQgeD0iMzAiIHk9IjM1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiNEMkFGMzciIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtd2VpZ2h0PSJib2xkIj5UTjwvdGV4dD4KPC9zdmc+" alt="TN Govt Logo" class="navbar-logo">
             </div>
             
             {% if session.get('user_id') %}
@@ -71,6 +80,12 @@
         </div>
     </footer>
 
+    <!-- Three.js Library (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <!-- 3D Background Script -->
+    <script src="{{ url_for('static', filename='js/3d-background.js') }}"></script>
+    
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block extra_js %}{% endblock %}

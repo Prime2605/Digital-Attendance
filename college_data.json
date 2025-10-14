@@ -1,0 +1,101 @@
+{
+  "college": {
+    "name": "Government College of Engineering, Erode",
+    "name_tamil": "அரசினர் பொறியியல் கல்லூரி, ஈரோடு",
+    "affiliation": "Approved by AICTE, New Delhi and Affiliated to Anna University, Chennai",
+    "location": "Erode, Tamil Nadu, India"
+  },
+  "departments": [
+    {
+      "id": "CE",
+      "name": "Civil Engineering",
+      "degree": "B.E. Civil Engineering",
+      "hod": {
+        "name": "Dr. P. Saravanakumar",
+        "designation": "Head of the Department",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "AUTO",
+      "name": "Automobile Engineering",
+      "degree": "B.E. Automobile Engineering",
+      "hod": {
+        "name": "Dr. R. Senthilraja",
+        "designation": "Head of the Department i/c (Additional Charge)",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "MECH",
+      "name": "Mechanical Engineering",
+      "degree": "B.E. Mechanical Engineering",
+      "hod": {
+        "name": "Dr. K. Balamurugan",
+        "designation": "Head of the Department",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "EEE",
+      "name": "Electrical & Electronics Engineering",
+      "degree": "B.E. Electrical & Electronics Engineering",
+      "hod": {
+        "name": "Dr. M. Mohammadha Hussaini",
+        "designation": "Head of the Department",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "ECE",
+      "name": "Electronics & Communication Engineering",
+      "degree": "B.E. Electronics & Communication Engineering",
+      "hod": {
+        "name": "Mr. M. Raja",
+        "designation": "Head of the Department",
+        "qualification": "M.E."
+      }
+    },
+    {
+      "id": "CSE",
+      "name": "Computer Science & Engineering",
+      "degree": "B.E. Computer Science & Engineering",
+      "hod": {
+        "name": "Dr. A. Saradha",
+        "designation": "Head of the Department",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "CSE_DS",
+      "name": "Computer Science & Engineering (Data Science)",
+      "degree": "B.E. Computer Science & Engineering (Data Science)",
+      "hod": {
+        "name": "Dr. A. Saradha",
+        "designation": "Head of the Department",
+        "qualification": "M.E., Ph.D."
+      }
+    },
+    {
+      "id": "IT",
+      "name": "Information Technology",
+      "degree": "B.Tech Information Technology",
+      "hod": {
+        "name": "Dr. I. Bhuvaneshwarri",
+        "designation": "Head of the Department (Incharge)",
+        "qualification": "M.E., Ph.D."
+      }
+    }
+  ],
+  "logos": {
+    "college_logo_left": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1NSIgZmlsbD0iI0Q0QUYzNyIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSI2MCIgeT0iNzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzAwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R0NFRS9zdmc+Cjwvc3ZnPg==",
+    "college_logo_right": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1NSIgZmlsbD0iI0Q0QUYzNyIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8dGV4dCB4PSI2MCIgeT0iNzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzAwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+VE4gR292dDwvdGV4dD4KPC9zdmc+",
+    "description": "College logos - Left: GCEE emblem, Right: Tamil Nadu Government emblem"
+  },
+  "contact": {
+    "address": "Perundurai Road, Erode - 638 316, Tamil Nadu, India",
+    "phone": "+91-4294-226602",
+    "email": "principal@gceerode.ac.in",
+    "website": "https://www.gceerode.ac.in"
+  }
+}
