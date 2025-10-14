@@ -85,9 +85,9 @@ def is_otp_valid(otp_code):
         # STRICT: Calculate exact time difference
         time_elapsed = (current_time - created_at).total_seconds()
         
-        # STRICT: Must be within 30 seconds (increased for cross-server delay)
-        if time_elapsed > 30.0 or current_time > expires_at:
-            return False, "OTP expired (30 second limit)", None
+        # STRICT: Must be within 10 seconds (increased for cross-server delay)
+        if time_elapsed > 10.0 or current_time > expires_at:
+            return False, "OTP expired (10 second limit)", None
         
         return True, "Valid", staff_name
     except Exception as e:
@@ -217,7 +217,7 @@ def generate_otp_route():
     
     # Generate new OTP
     otp_code = generate_otp()
-    expires_at = datetime.now() + timedelta(seconds=30)  # 30 seconds for cross-server compatibility
+    expires_at = datetime.now() + timedelta(seconds=10)  # 10 seconds for cross-server compatibility
     
     # Get staff name and department
     try:
@@ -253,7 +253,7 @@ def generate_otp_route():
         'success': True,
         'otp': otp_code,
         'staff': staff_display,
-        'expires_in': 30,  # Changed to 30 seconds for cross-server compatibility
+        'expires_in': 10,  # Changed to 10 seconds for cross-server compatibility
         'period': current_period,
         'server_time': datetime.now().isoformat(),
         'expires_at': expires_at.isoformat()

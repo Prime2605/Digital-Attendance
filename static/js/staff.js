@@ -127,7 +127,7 @@ async function generateOTP() {
                 }
             }, 1000);
             
-            showMessage(`OTP generated successfully${periodInfo}! Valid for 30 seconds.${staffInfo}`, 'success');
+            showMessage(`OTP generated successfully${periodInfo}! Valid for 10 seconds.${staffInfo}`, 'success');
         } else {
             showMessage(data.message || 'Failed to generate OTP', 'error');
         }
