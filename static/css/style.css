@@ -100,6 +100,154 @@
 }
 
 /* ===================================
+   ATTENDANCE RATE SECTION
+   =================================== */
+
+.attendance-rate-section {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--gradient-dark);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+}
+
+.section-header h2 {
+    color: var(--gold);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.view-toggle {
+    display: flex;
+    gap: var(--spacing-sm);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+}
+
+.toggle-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    color: var(--silver-light);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.toggle-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+.toggle-btn.active {
+    background: var(--gradient-gold);
+    color: var(--black);
+    font-weight: 600;
+}
+
+.stats-view {
+    animation: fadeIn 0.5s ease;
+}
+
+.attendance-progress {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--gradient-gold);
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.5rem;
+    color: var(--black);
+    font-weight: 700;
+}
+
+.progress-bar.low {
+    background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+}
+
+.progress-bar.medium {
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+}
+
+.progress-bar.high {
+    background: var(--gradient-gold);
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+    font-size: 0.85rem;
+    color: var(--silver-light);
+}
+
+.stat-value.low {
+    color: #EF4444;
+}
+
+.stat-value.medium {
+    color: #F59E0B;
+}
+
+.stat-value.high {
+    color: var(--gold);
+}
+
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .view-toggle {
+        width: 100%;
+    }
+    
+    .toggle-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+/* ===================================
    GLOBAL STYLES
    =================================== */
 
@@ -575,26 +723,41 @@ body::before {
     margin-bottom: var(--spacing-xl);
 }
 
-.stat-card {
+.attendance-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: var(--spacing-lg);
-    padding: var(--spacing-lg);
-    border-radius: var(--radius-lg);
-    background: var(--gradient-dark);
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    margin-bottom: var(--spacing-sm);
     transition: all 0.3s ease;
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
+.attendance-item:hover {
     border-color: var(--gold);
+    transform: translateX(5px);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+/* Detailed Attendance Item */
+.attendance-item-detailed {
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    margin-bottom: var(--spacing-md);
+    transition: all 0.3s ease;
+}
+
+.attendance-item-detailed:hover {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
     box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
 }
 
-.stat-icon {
-    width: 60px;
-    height: 60px;
+.attendance-header {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1069,7 +1232,76 @@ body::before {
     font-size: 0.85rem;
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs);
+}
+
+/* Detailed Attendance Item */
+.attendance-item-detailed {
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    margin-bottom: var(--spacing-md);
+    transition: all 0.3s ease;
+}
+
+.attendance-item-detailed:hover {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.attendance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.attendance-period {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--silver-light);
+    background: rgba(212, 175, 55, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+}
+
+.attendance-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--silver-light);
+    font-size: 0.9rem;
+}
+
+.detail-item i {
+    color: var(--gold);
+    width: 20px;
+}
+
+.detail-label {
+    font-weight: 500;
+    color: var(--silver-light);
+}
+
+.detail-value {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.detail-value.status-present {
+    color: var(--success);
 }
 
 .status-present {

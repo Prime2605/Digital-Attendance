@@ -30,13 +30,14 @@ function updateStatsDisplay(data) {
         totalElement.textContent = data.total_students;
     }
     
-    // Update percentage
-    const percentElement = document.getElementById('attendancePercentage');
-    if (percentElement) {
-        percentElement.textContent = data.attendance_percentage + '%';
+    // Update total periods today
+    const periodsElement = document.getElementById('totalPeriods');
+    if (periodsElement && data.by_period) {
+        const uniquePeriods = Object.keys(data.by_period).length;
+        periodsElement.textContent = uniquePeriods;
     }
     
-    // Update period breakdown
+    // Update period breakdown (if exists)
     const periodElement = document.getElementById('periodBreakdown');
     if (periodElement && data.by_period) {
         let html = '<div class="period-stats">';

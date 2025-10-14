@@ -309,6 +309,7 @@ def submit_otp():
             'period': current_period,
             'time': attendance_time.strftime('%H:%M:%S'),
             'status': 'present',
+            'staff_name': staff_name,  # Store staff name who generated OTP
             'created_at': attendance_time.isoformat()
         }).execute()
         
@@ -446,6 +447,88 @@ def student_stats():
             'all_records': records
         })
     except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 500
+
+@app.route('/api/student/attendance-rate')
+def student_attendance_rate():
+    """Calculate student's attendance rate - daily and semester"""
+    if 'user_id' not in session or session.get('role') != 'student':
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+    
+    try:
+        student_id = session['user_id']
+        today = datetime.now().date().isoformat()
+        
+        # DAILY STATISTICS
+        # Get today's attendance
+        today_response = supabase.table('attendance').select('*').eq('student_id', student_id).eq('date', today).execute()
+        today_present = len(today_response.data)
+        
+        # Total periods per day = 8
+        total_periods_per_day = 8
+        today_missed = total_periods_per_day - today_present
+        today_rate = (today_present / total_periods_per_day * 100) if total_periods_per_day > 0 else 0
+        
+        # SEMESTER STATISTICS
+        # Get all attendance records
+        all_response = supabase.table('attendance').select('*').eq('student_id', student_id).execute()
+        all_records = all_response.data
+        
+        # Calculate unique days attended
+        unique_dates = set([r['date'] for r in all_records])
+        total_days_attended = len(unique_dates)
+        
+        # Calculate total periods attended
+        total_periods_attended = len(all_records)
+        
+        # Calculate total possible periods
+        # Assume semester started from first attendance date
+        if all_records:
+            first_date = min([r['date'] for r in all_records])
+            first_date_obj = datetime.fromisoformat(first_date).date()
+            today_obj = datetime.now().date()
+            
+            # Calculate working days (excluding weekends)
+            total_days = 0
+            current_date = first_date_obj
+            while current_date <= today_obj:
+                # Exclude Sundays (weekday 6)
+                if current_date.weekday() != 6:
+                    total_days += 1
+                current_date += timedelta(days=1)
+            
+            # Total possible periods = total_days * 8 periods per day
+            total_possible_periods = total_days * 8
+            
+            # Periods missed = total possible - attended
+            semester_missed = max(0, total_possible_periods - total_periods_attended)
+            
+            # Calculate semester rate
+            semester_rate = (total_periods_attended / total_possible_periods * 100) if total_possible_periods > 0 else 0
+        else:
+            total_days = 0
+            total_possible_periods = 0
+            semester_missed = 0
+            semester_rate = 0
+        
+        return jsonify({
+            'success': True,
+            'daily': {
+                'present': today_present,
+                'missed': today_missed,
+                'total': total_periods_per_day,
+                'rate': round(today_rate, 1)
+            },
+            'semester': {
+                'present': total_periods_attended,
+                'missed': semester_missed,
+                'total': total_possible_periods,
+                'rate': round(semester_rate, 1),
+                'total_days': total_days
+            }
+        })
+    except Exception as e:
+        print(f"Error calculating attendance rate: {e}")
         return jsonify({'success': False, 'message': str(e)}), 500
 
 @app.route('/api/export/csv')

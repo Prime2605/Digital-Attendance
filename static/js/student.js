@@ -1,15 +1,31 @@
 // ===================================
-// STUDENT DASHBOARD - OTP SUBMISSION
+// STUDENT DASHBOARD - OTP SUBMISSION & ATTENDANCE RATE
 // ===================================
 
 document.addEventListener('DOMContentLoaded', function() {
     const otpForm = document.getElementById('otpForm');
     const otpInput = document.getElementById('otpInput');
-    const otpMessage = document.getElementById('otpMessage');
     
     if (otpForm) {
         otpForm.addEventListener('submit', submitOTP);
     }
+    
+    // Auto-focus on OTP input
+    if (otpInput) {
+        otpInput.focus();
+    }
+    
+    // Initialize attendance rate tracking
+    initializeAttendanceRate();
+    
+    // View toggle buttons
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const view = this.getAttribute('data-view');
+            toggleView(view);
+        });
+    });
     
     // Auto-format OTP input (only numbers)
     if (otpInput) {
@@ -122,3 +138,124 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ===================================
+// ATTENDANCE RATE TRACKING
+// ===================================
+
+async function initializeAttendanceRate() {
+    await loadAttendanceStats();
+}
+
+async function loadAttendanceStats() {
+    try {
+        const response = await fetch('/api/student/attendance-rate');
+        const data = await response.json();
+        
+        if (data.success) {
+            updateDailyStats(data.daily);
+            updateSemesterStats(data.semester);
+        }
+    } catch (error) {
+        console.error('Error loading attendance stats:', error);
+    }
+}
+
+function updateDailyStats(daily) {
+    // Update daily statistics
+    document.getElementById('dailyPresent').textContent = daily.present || 0;
+    document.getElementById('dailyMissed').textContent = daily.missed || 0;
+    
+    const dailyRate = daily.rate || 0;
+    const dailyRateElement = document.getElementById('dailyRate');
+    dailyRateElement.textContent = dailyRate.toFixed(1) + '%';
+    
+    // Color code based on rate
+    dailyRateElement.classList.remove('low', 'medium', 'high');
+    if (dailyRate < 50) {
+        dailyRateElement.classList.add('low');
+    } else if (dailyRate < 75) {
+        dailyRateElement.classList.add('medium');
+    } else {
+        dailyRateElement.classList.add('high');
+    }
+}
+
+function updateSemesterStats(semester) {
+    // Update semester statistics
+    document.getElementById('semesterPresent').textContent = semester.present || 0;
+    document.getElementById('semesterMissed').textContent = semester.missed || 0;
+    
+    const semesterRate = semester.rate || 0;
+    const semesterRateElement = document.getElementById('semesterRate');
+    semesterRateElement.textContent = semesterRate.toFixed(1) + '%';
+    
+    // Color code based on rate
+    semesterRateElement.classList.remove('low', 'medium', 'high');
+    if (semesterRate < 50) {
+        semesterRateElement.classList.add('low');
+    } else if (semesterRate < 75) {
+        semesterRateElement.classList.add('medium');
+    } else {
+        semesterRateElement.classList.add('high');
+    }
+    
+    // Update status
+    const statusElement = document.getElementById('attendanceStatus');
+    if (semesterRate >= 75) {
+        statusElement.textContent = 'Excellent';
+        statusElement.style.color = 'var(--gold)';
+    } else if (semesterRate >= 50) {
+        statusElement.textContent = 'Warning';
+        statusElement.style.color = '#F59E0B';
+    } else {
+        statusElement.textContent = 'Critical';
+        statusElement.style.color = '#EF4444';
+    }
+    
+    // Update progress bar
+    const progressBar = document.getElementById('progressBar');
+    const progressPercentage = document.getElementById('progressPercentage');
+    
+    progressBar.style.width = semesterRate + '%';
+    progressPercentage.textContent = semesterRate.toFixed(1) + '%';
+    
+    // Color code progress bar
+    progressBar.classList.remove('low', 'medium', 'high');
+    if (semesterRate < 50) {
+        progressBar.classList.add('low');
+    } else if (semesterRate < 75) {
+        progressBar.classList.add('medium');
+    } else {
+        progressBar.classList.add('high');
+    }
+    
+    // Update remaining days
+    const remainingDays = document.getElementById('remainingDays');
+    const totalDays = semester.total_days || 0;
+    remainingDays.textContent = `${totalDays} days tracked`;
+}
+
+function toggleView(view) {
+    // Update button states
+    const toggleBtns = document.querySelectorAll('.toggle-btn');
+    toggleBtns.forEach(btn => {
+        if (btn.getAttribute('data-view') === view) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+    
+    // Toggle views
+    const dailyView = document.getElementById('dailyView');
+    const semesterView = document.getElementById('semesterView');
+    
+    if (view === 'daily') {
+        dailyView.style.display = 'block';
+        semesterView.style.display = 'none';
+    } else {
+        dailyView.style.display = 'none';
+        semesterView.style.display = 'block';
+    }
+}

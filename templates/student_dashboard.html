@@ -66,20 +66,33 @@
                 <div class="attendance-list">
                     {% if attendance_records %}
                         {% for record in attendance_records %}
-                        <div class="attendance-item">
-                            <div class="attendance-info">
+                        <div class="attendance-item-detailed">
+                            <div class="attendance-header">
                                 <div class="attendance-date">
-                                    <i class="fas fa-calendar-check"></i>
-                                    {{ record.date }}
+                                    <i class="fas fa-calendar-day"></i>
+                                    <span>{{ record.date }}</span>
                                 </div>
-                                <div class="attendance-time">
+                                <div class="attendance-period">
                                     <i class="fas fa-clock"></i>
-                                    {{ record.time }}
+                                    <span>Period {{ record.period }}</span>
                                 </div>
                             </div>
-                            <div class="attendance-status status-{{ record.status }}">
-                                <i class="fas fa-check-circle"></i>
-                                {{ record.status.title() }}
+                            <div class="attendance-details">
+                                <div class="detail-item">
+                                    <i class="fas fa-user-tie"></i>
+                                    <span class="detail-label">Staff:</span>
+                                    <span class="detail-value">{{ record.staff_name or 'Unknown' }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span class="detail-label">Time:</span>
+                                    <span class="detail-value">{{ record.time }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span class="detail-label">Status:</span>
+                                    <span class="detail-value status-{{ record.status }}">{{ record.status.title() }}</span>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -94,35 +107,122 @@
         </div>
     </div>
 
-    <!-- Statistics Cards -->
-    <div class="stats-grid">
-        <div class="stat-card glass-panel">
-            <div class="stat-icon">
-                <i class="fas fa-calendar-day"></i>
-            </div>
-            <div class="stat-info">
-                <h3>Days Present</h3>
-                <p class="stat-value">{{ attendance_records|length }}</p>
-            </div>
-        </div>
-
-        <div class="stat-card glass-panel">
-            <div class="stat-icon">
-                <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="stat-info">
-                <h3>Attendance Rate</h3>
-                <p class="stat-value">100%</p>
+    <!-- Attendance Rate Section -->
+    <div class="attendance-rate-section">
+        <div class="section-header">
+            <h2><i class="fas fa-chart-pie"></i> Attendance Statistics</h2>
+            <div class="view-toggle">
+                <button class="toggle-btn active" data-view="daily">
+                    <i class="fas fa-calendar-day"></i> Daily
+                </button>
+                <button class="toggle-btn" data-view="semester">
+                    <i class="fas fa-calendar-alt"></i> Semester
+                </button>
             </div>
         </div>
 
-        <div class="stat-card glass-panel">
-            <div class="stat-icon">
-                <i class="fas fa-trophy"></i>
+        <!-- Daily View -->
+        <div id="dailyView" class="stats-view active">
+            <div class="stats-grid">
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dailyPresent">0</div>
+                        <div class="stat-label">Periods Present Today</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dailyMissed">0</div>
+                        <div class="stat-label">Periods Missed Today</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dailyRate">0%</div>
+                        <div class="stat-label">Today's Attendance Rate</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalPeriods">8</div>
+                        <div class="stat-label">Total Periods/Day</div>
+                    </div>
+                </div>
             </div>
-            <div class="stat-info">
-                <h3>Status</h3>
-                <p class="stat-value">Excellent</p>
+        </div>
+
+        <!-- Semester View -->
+        <div id="semesterView" class="stats-view" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="semesterPresent">0</div>
+                        <div class="stat-label">Total Periods Attended</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="semesterMissed">0</div>
+                        <div class="stat-label">Total Periods Missed</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="semesterRate">0%</div>
+                        <div class="stat-label">Semester Attendance Rate</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="attendanceStatus">-</div>
+                        <div class="stat-label">Status</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="attendance-progress">
+                <div class="progress-header">
+                    <span>Semester Progress</span>
+                    <span id="progressPercentage">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="progress-info">
+                    <span><i class="fas fa-info-circle"></i> Minimum required: 75%</span>
+                    <span id="remainingDays">0 days tracked</span>
+                </div>
             </div>
         </div>
     </div>
