@@ -1304,6 +1304,118 @@ body::before {
     color: var(--success);
 }
 
+/* Staff Attendance Item */
+.attendance-item-staff {
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    margin-bottom: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.attendance-item-staff:hover {
+    border-color: var(--gold);
+    background: rgba(212, 175, 55, 0.05);
+    transform: translateX(5px);
+}
+
+.attendance-item-staff .attendance-info {
+    flex: 1;
+}
+
+.attendance-item-staff .attendance-name {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 1rem;
+}
+
+.student-year {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--gold);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.attendance-details-row {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.detail-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    font-size: 0.85rem;
+    color: var(--silver-light);
+}
+
+.detail-badge i {
+    color: var(--gold);
+}
+
+/* Semester Info Banner */
+.semester-info-banner {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(192, 192, 192, 0.1));
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.semester-info-banner i {
+    color: var(--gold);
+    font-size: 1.5rem;
+}
+
+.semester-info-banner span {
+    color: var(--silver-light);
+    font-size: 0.95rem;
+}
+
+.semester-info-banner strong {
+    color: var(--gold);
+    font-weight: 700;
+}
+
+.semester-info-banner .separator {
+    color: rgba(212, 175, 55, 0.5);
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .semester-info-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .semester-info-banner .separator {
+        display: none;
+    }
+}
+
 .status-present {
     background: rgba(16, 185, 129, 0.2);
     color: var(--success);

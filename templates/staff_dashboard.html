@@ -113,15 +113,26 @@
                 <div class="attendance-list">
                     {% if attendance_records %}
                         {% for record in attendance_records %}
-                        <div class="attendance-item">
+                        <div class="attendance-item-staff">
                             <div class="attendance-info">
                                 <div class="attendance-name">
-                                    <i class="fas fa-user"></i>
-                                    {{ record.users.name if record.users else 'Unknown' }}
+                                    <i class="fas fa-user-graduate"></i>
+                                    <span class="student-name">{{ record.users.name if record.users else 'Unknown' }}</span>
+                                    <span class="student-year">Year {{ record.users.year if record.users and record.users.year else '-' }}</span>
                                 </div>
-                                <div class="attendance-time">
-                                    <i class="fas fa-calendar"></i>
-                                    {{ record.date }} at {{ record.time }}
+                                <div class="attendance-details-row">
+                                    <div class="detail-badge">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Period {{ record.period }}</span>
+                                    </div>
+                                    <div class="detail-badge">
+                                        <i class="fas fa-calendar-day"></i>
+                                        <span>{{ record.date }}</span>
+                                    </div>
+                                    <div class="detail-badge">
+                                        <i class="fas fa-clock"></i>
+                                        <span>{{ record.time }}</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="attendance-status status-{{ record.status }}">

@@ -165,6 +165,11 @@ function updateDailyStats(daily) {
     // Update daily statistics
     document.getElementById('dailyPresent').textContent = daily.present || 0;
     document.getElementById('dailyMissed').textContent = daily.missed || 0;
+    document.getElementById('dailyRemaining').textContent = daily.remaining || 0;
+    
+    // Update current period display
+    const currentPeriod = daily.current_period || '-';
+    document.getElementById('currentPeriodDisplay').textContent = currentPeriod === 8 ? 'Day Over' : `Period ${currentPeriod}`;
     
     const dailyRate = daily.rate || 0;
     const dailyRateElement = document.getElementById('dailyRate');
@@ -179,12 +184,37 @@ function updateDailyStats(daily) {
     } else {
         dailyRateElement.classList.add('high');
     }
+    
+    // Color code missed periods
+    const missedElement = document.getElementById('dailyMissed');
+    missedElement.classList.remove('low', 'medium', 'high');
+    const missed = daily.missed || 0;
+    if (missed > 2) {
+        missedElement.classList.add('low'); // Many missed - red
+    } else if (missed > 0) {
+        missedElement.classList.add('medium'); // Some missed - orange
+    } else {
+        missedElement.classList.add('high'); // None missed - gold
+    }
+    
+    // Color code remaining periods
+    const remainingElement = document.getElementById('dailyRemaining');
+    remainingElement.classList.remove('low', 'medium', 'high');
+    const remaining = daily.remaining || 0;
+    if (remaining > 4) {
+        remainingElement.classList.add('medium'); // Many periods left
+    } else if (remaining > 0) {
+        remainingElement.classList.add('high'); // Some periods left
+    } else {
+        remainingElement.classList.add('high'); // Day complete
+    }
 }
 
 function updateSemesterStats(semester) {
-    // Update semester statistics
+    // Update semester statistics (4 months)
     document.getElementById('semesterPresent').textContent = semester.present || 0;
     document.getElementById('semesterMissed').textContent = semester.missed || 0;
+    document.getElementById('semesterDays').textContent = semester.total_days || 0;
     
     const semesterRate = semester.rate || 0;
     const semesterRateElement = document.getElementById('semesterRate');

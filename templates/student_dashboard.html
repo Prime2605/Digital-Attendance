@@ -136,11 +136,21 @@
 
                 <div class="stat-card glass-panel">
                     <div class="stat-icon">
-                        <i class="fas fa-calendar-times"></i>
+                        <i class="fas fa-times-circle"></i>
                     </div>
                     <div class="stat-content">
                         <div class="stat-value" id="dailyMissed">0</div>
                         <div class="stat-label">Periods Missed Today</div>
+                    </div>
+                </div>
+
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="dailyRemaining">0</div>
+                        <div class="stat-label">Periods Remaining Today</div>
                     </div>
                 </div>
 
@@ -159,15 +169,22 @@
                         <i class="fas fa-clock"></i>
                     </div>
                     <div class="stat-content">
-                        <div class="stat-value" id="totalPeriods">8</div>
-                        <div class="stat-label">Total Periods/Day</div>
+                        <div class="stat-value" id="currentPeriodDisplay">-</div>
+                        <div class="stat-label">Current Period</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Semester View -->
+        <!-- Semester View (4 Months) -->
         <div id="semesterView" class="stats-view" style="display: none;">
+            <div class="semester-info-banner">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Semester Duration: <strong id="semesterDuration">4 Months</strong></span>
+                <span class="separator">|</span>
+                <span>Working Days: <strong id="semesterDays">0</strong></span>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card glass-panel">
                     <div class="stat-icon">
@@ -175,17 +192,17 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-value" id="semesterPresent">0</div>
-                        <div class="stat-label">Total Periods Attended</div>
+                        <div class="stat-label">Periods Attended (4 Months)</div>
                     </div>
                 </div>
 
                 <div class="stat-card glass-panel">
                     <div class="stat-icon">
-                        <i class="fas fa-times-circle"></i>
+                        <i class="fas fa-calendar-times"></i>
                     </div>
                     <div class="stat-content">
                         <div class="stat-value" id="semesterMissed">0</div>
-                        <div class="stat-label">Total Periods Missed</div>
+                        <div class="stat-label">Periods Missed (4 Months)</div>
                     </div>
                 </div>
 
@@ -195,7 +212,7 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-value" id="semesterRate">0%</div>
-                        <div class="stat-label">Semester Attendance Rate</div>
+                        <div class="stat-label">4-Month Attendance Rate</div>
                     </div>
                 </div>
 

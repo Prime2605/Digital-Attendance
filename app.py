@@ -1,10 +1,13 @@
 import os
 import secrets
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, timezone
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 from supabase_config import get_supabase_client
 from dotenv import load_dotenv
+
+# IST Timezone (UTC+5:30)
+IST = timezone(timedelta(hours=5, minutes=30))
 
 # Load environment variables
 load_dotenv()
@@ -167,9 +170,9 @@ def staff_dashboard():
     # Cleanup expired OTPs
     cleanup_expired_otps()
     
-    # Get recent attendance records with optimized query
+    # Get recent attendance records with student details (name, year)
     try:
-        response = supabase.table('attendance').select('*, users(name)').order('created_at', desc=True).limit(10).execute()
+        response = supabase.table('attendance').select('*, users(name, year, department)').order('created_at', desc=True).limit(10).execute()
         attendance_records = response.data if response.data else []
     except Exception as e:
         print(f"Error fetching attendance: {e}")
@@ -300,9 +303,9 @@ def submit_otp():
         print(f"Error checking existing attendance: {e}")
         return jsonify({'success': False, 'message': 'Database error'})
     
-    # Mark attendance with precise timestamp and period
+    # Mark attendance with precise timestamp and period (IST)
     try:
-        attendance_time = datetime.now()
+        attendance_time = datetime.now(IST)
         supabase.table('attendance').insert({
             'student_id': session['user_id'],
             'date': today,
@@ -464,59 +467,65 @@ def student_attendance_rate():
         today_response = supabase.table('attendance').select('*').eq('student_id', student_id).eq('date', today).execute()
         today_present = len(today_response.data)
         
+        # Get current period to calculate missed and remaining
+        current_period = get_current_period()
+        if current_period is None:
+            current_period = 8  # If outside hours, assume day is over
+        
         # Total periods per day = 8
         total_periods_per_day = 8
-        today_missed = total_periods_per_day - today_present
-        today_rate = (today_present / total_periods_per_day * 100) if total_periods_per_day > 0 else 0
         
-        # SEMESTER STATISTICS
-        # Get all attendance records
-        all_response = supabase.table('attendance').select('*').eq('student_id', student_id).execute()
-        all_records = all_response.data
+        # Periods completed so far = current period
+        periods_completed = current_period
         
-        # Calculate unique days attended
-        unique_dates = set([r['date'] for r in all_records])
-        total_days_attended = len(unique_dates)
+        # Periods missed = completed periods - present
+        today_missed = max(0, periods_completed - today_present)
         
-        # Calculate total periods attended
-        total_periods_attended = len(all_records)
+        # Periods remaining = total - current period
+        today_remaining = max(0, total_periods_per_day - current_period)
         
-        # Calculate total possible periods
-        # Assume semester started from first attendance date
-        if all_records:
-            first_date = min([r['date'] for r in all_records])
-            first_date_obj = datetime.fromisoformat(first_date).date()
-            today_obj = datetime.now().date()
-            
-            # Calculate working days (excluding weekends)
-            total_days = 0
-            current_date = first_date_obj
-            while current_date <= today_obj:
-                # Exclude Sundays (weekday 6)
-                if current_date.weekday() != 6:
-                    total_days += 1
-                current_date += timedelta(days=1)
-            
-            # Total possible periods = total_days * 8 periods per day
-            total_possible_periods = total_days * 8
-            
-            # Periods missed = total possible - attended
-            semester_missed = max(0, total_possible_periods - total_periods_attended)
-            
-            # Calculate semester rate
-            semester_rate = (total_periods_attended / total_possible_periods * 100) if total_possible_periods > 0 else 0
-        else:
-            total_days = 0
-            total_possible_periods = 0
-            semester_missed = 0
-            semester_rate = 0
+        # Today's rate based on completed periods
+        today_rate = (today_present / periods_completed * 100) if periods_completed > 0 else 0
+        
+        # SEMESTER STATISTICS (4 MONTHS)
+        # Calculate date range for 4 months (120 days)
+        today_obj = datetime.now().date()
+        four_months_ago = today_obj - timedelta(days=120)
+        
+        # Get attendance records from last 4 months
+        semester_response = supabase.table('attendance').select('*').eq('student_id', student_id).gte('date', four_months_ago.isoformat()).execute()
+        semester_records = semester_response.data
+        
+        # Calculate total periods attended in 4 months
+        total_periods_attended = len(semester_records)
+        
+        # Calculate working days in 4 months (excluding Sundays)
+        total_days = 0
+        current_date = four_months_ago
+        while current_date <= today_obj:
+            # Exclude Sundays (weekday 6)
+            if current_date.weekday() != 6:
+                total_days += 1
+            current_date += timedelta(days=1)
+        
+        # Total possible periods in 4 months = working_days * 8 periods per day
+        total_possible_periods = total_days * 8
+        
+        # Periods missed = total possible - attended
+        semester_missed = max(0, total_possible_periods - total_periods_attended)
+        
+        # Calculate semester rate (4 months)
+        semester_rate = (total_periods_attended / total_possible_periods * 100) if total_possible_periods > 0 else 0
         
         return jsonify({
             'success': True,
             'daily': {
                 'present': today_present,
                 'missed': today_missed,
+                'remaining': today_remaining,
                 'total': total_periods_per_day,
+                'current_period': current_period,
+                'periods_completed': periods_completed,
                 'rate': round(today_rate, 1)
             },
             'semester': {
