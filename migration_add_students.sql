@@ -5,24 +5,24 @@
 -- Insert 10 student accounts with different departments and years
 INSERT INTO users (name, email, password, role, department, year, created_at) VALUES
 -- CSE Students
-('Rajesh Kumar', 'student1@gceerode.ac.in', 'student123', 'student', 'Computer Science and Engineering', '3rd Year', NOW()),
-('Priya Sharma', 'student2@gceerode.ac.in', 'student123', 'student', 'Computer Science and Engineering', '2nd Year', NOW()),
+('Rajesh Kumar', 'student1@gceerode.ac.in', 'student123', 'student', 'Computer Science and Engineering', 3, NOW()),
+('Priya Sharma', 'student2@gceerode.ac.in', 'student123', 'student', 'Computer Science and Engineering', 2, NOW()),
 
 -- ECE Students
-('Arun Prakash', 'student3@gceerode.ac.in', 'student123', 'student', 'Electronics and Communication Engineering', '3rd Year', NOW()),
-('Divya Lakshmi', 'student4@gceerode.ac.in', 'student123', 'student', 'Electronics and Communication Engineering', '2nd Year', NOW()),
+('Arun Prakash', 'student3@gceerode.ac.in', 'student123', 'student', 'Electronics and Communication Engineering', 3, NOW()),
+('Divya Lakshmi', 'student4@gceerode.ac.in', 'student123', 'student', 'Electronics and Communication Engineering', 2, NOW()),
 
 -- EEE Students
-('Karthik Raj', 'student5@gceerode.ac.in', 'student123', 'student', 'Electrical and Electronics Engineering', '3rd Year', NOW()),
-('Sneha Reddy', 'student6@gceerode.ac.in', 'student123', 'student', 'Electrical and Electronics Engineering', '2nd Year', NOW()),
+('Karthik Raj', 'student5@gceerode.ac.in', 'student123', 'student', 'Electrical and Electronics Engineering', 3, NOW()),
+('Sneha Reddy', 'student6@gceerode.ac.in', 'student123', 'student', 'Electrical and Electronics Engineering', 2, NOW()),
 
 -- Mechanical Students
-('Vijay Kumar', 'student7@gceerode.ac.in', 'student123', 'student', 'Mechanical Engineering', '3rd Year', NOW()),
-('Anjali Menon', 'student8@gceerode.ac.in', 'student123', 'student', 'Mechanical Engineering', '2nd Year', NOW()),
+('Vijay Kumar', 'student7@gceerode.ac.in', 'student123', 'student', 'Mechanical Engineering', 3, NOW()),
+('Anjali Menon', 'student8@gceerode.ac.in', 'student123', 'student', 'Mechanical Engineering', 2, NOW()),
 
 -- Civil Students
-('Suresh Babu', 'student9@gceerode.ac.in', 'student123', 'student', 'Civil Engineering', '3rd Year', NOW()),
-('Kavitha Devi', 'student10@gceerode.ac.in', 'student123', 'student', 'Civil Engineering', '2nd Year', NOW())
+('Suresh Babu', 'student9@gceerode.ac.in', 'student123', 'student', 'Civil Engineering', 3, NOW()),
+('Kavitha Devi', 'student10@gceerode.ac.in', 'student123', 'student', 'Civil Engineering', 2, NOW())
 
 ON CONFLICT (email) DO NOTHING;
 
