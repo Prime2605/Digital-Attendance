@@ -1,9 +1,5 @@
 # 🎓 Smart Attendance System
 
-### **Government College of Engineering, Erode**  
-**அரசினர் பொறியியல் கல்லூரி, ஈரோடு**  
-*Approved by AICTE, New Delhi and Affiliated to Anna University, Chennai*
-
 ---
 
 A premium, secure web-based attendance management system with time-restricted OTP verification and period-based tracking. Developed with a high-end black-gold-silver glass-morphism aesthetic, featuring a 3D animated background, Supabase PostgreSQL database integration, and explicit Indian Standard Time (IST) timezone syncing.
@@ -313,11 +309,11 @@ The application calculates the active period dynamically according to the colleg
 
 ---
 
-## 🖼️ College Branding & Logo Config
+## 🖼️ Institution Branding & Logo Config
 
 The layout displays bilingual title text and dual logos at the top navbar. 
-- **Left Logo:** GCEE Crest
-- **Right Logo:** Tamil Nadu State Emblem
+- **Left Logo:** Institutional Crest
+- **Right Logo:** State Emblem / Secondary Logo
 
 ### Adding Custom Images
 Create `static/images/` and insert your own emblem assets:
@@ -343,4 +339,4 @@ Create `static/images/` and insert your own emblem assets:
 - **Solution:** Ensure `app.py` defines the timezone using `timezone(timedelta(hours=5, minutes=30))` (IST) and constructs native datetimes accordingly.
 
 ---
-*Created for Government College of Engineering, Erode.*
+*Smart Attendance System*
